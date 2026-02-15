@@ -44,12 +44,39 @@ services:
       DOCKER_REGISTRY_USERNAME: ${DOCKER_REGISTRY_USERNAME:-}
       DOCKER_REGISTRY_PASSWORD: ${DOCKER_REGISTRY_PASSWORD:-}
       DOCKER_AUTOREMOVE_EXITED_CONTAINERS: 0
+      TRIGGER_CHECKPOINT_URL: http://checkpoint-service:9020
     healthcheck:
       test: ["CMD", "node", "-e", "http.get('http://localhost:8020/health', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
+
+  # Checkpoint service (optional — requires CRIU on the host for container checkpointing)
+  checkpoint-service:
+    image: ghcr.io/triggerdotdev/checkpoint-service:${TRIGGER_IMAGE_TAG:-v4-beta}
+    restart: ${RESTART_POLICY:-unless-stopped}
+    logging: *logging-config
+    ports:
+      - "9020:9020"
+    networks:
+      - supervisor
+      - docker-proxy
+      - webapp
+    depends_on:
+      docker-proxy:
+        condition: service_healthy
+    environment:
+      TRIGGER_API_URL: ${TRIGGER_API_URL:-http://webapp:3000}
+      TRIGGER_WORKER_TOKEN: file:///home/node/shared/worker_token
+      MANAGED_WORKER_SECRET: ${MANAGED_WORKER_SECRET}
+      TRIGGER_WORKER_INSTANCE_NAME: checkpoint-service
+      TRIGGER_WORKER_DEPLOYMENT_ID: ""
+      DOCKER_HOST: tcp://docker-proxy:2375
+      CHECKPOINT_SERVICE_PORT: 9020
+      DEBUG: ${DEBUG:-0}
+    volumes:
+      - shared:/home/node/shared:ro
 
   docker-proxy:
     image: tecnativa/docker-socket-proxy:${DOCKER_PROXY_IMAGE_TAG:-latest}
