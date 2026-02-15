@@ -11,7 +11,7 @@ const RestoreParams = z.object({
   snapshotId: z.string(),
 });
 
-export function createRestoreRoute(deps: { checkpointDir: string }) {
+export function createRestoreRoute(deps: { checkpointDir?: string }) {
   return {
     paramsSchema: RestoreParams,
     bodySchema: CheckpointServiceRestoreRequestBody,

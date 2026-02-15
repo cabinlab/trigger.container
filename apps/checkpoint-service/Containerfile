@@ -9,7 +9,7 @@ RUN npx -q turbo@2.5.4 prune --scope=@trigger.dev/checkpoint-service --docker
 
 FROM node-22-alpine AS base
 
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init docker-cli
 
 COPY --chown=node:node .gitignore .gitignore
 COPY --from=pruner --chown=node:node /app/out/json/ .

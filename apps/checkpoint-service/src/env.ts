@@ -20,7 +20,7 @@ const Env = z.object({
 
   // Checkpoint service settings
   CHECKPOINT_SERVICE_PORT: z.coerce.number().default(9020),
-  CHECKPOINT_STORAGE_DIR: z.string().default("/checkpoints"),
+  CHECKPOINT_STORAGE_DIR: z.string().optional(),
 
   // Docker settings
   DOCKER_HOST: z.string().optional(),

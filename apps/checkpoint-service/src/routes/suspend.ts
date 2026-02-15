@@ -14,7 +14,7 @@ const SuspendParams = z.object({
   snapshotId: z.string(),
 });
 
-export function createSuspendRoute(deps: { webappClient: WebappClient; checkpointDir: string }) {
+export function createSuspendRoute(deps: { webappClient: WebappClient; checkpointDir?: string }) {
   return {
     paramsSchema: SuspendParams,
     bodySchema: CheckpointServiceSuspendRequestBody,

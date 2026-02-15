@@ -50,7 +50,7 @@ export async function checkHealth(config: HealthConfig): Promise<HealthResult> {
   // Webapp check: attempt to reach the webapp API
   let webappOk = false;
   try {
-    const url = `${config.webappApiUrl.replace(/\/$/, "")}/api/v1/health`;
+    const url = `${config.webappApiUrl.replace(/\/$/, "")}/healthcheck`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
