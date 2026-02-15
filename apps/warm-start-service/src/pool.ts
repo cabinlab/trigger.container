@@ -3,17 +3,20 @@ import type { DequeuedMessage } from "@trigger.dev/core/v3/schemas";
 
 export type PoolKey = string;
 
-export interface WaitingContainer {
+export interface EnqueueParams {
   deploymentId: string;
   deploymentVersion: string;
   machineCpu: string;
   machineMemory: string;
   controllerId: string;
   workerInstanceName: string;
+  req: IncomingMessage;
+}
+
+export interface WaitingContainer extends EnqueueParams {
   resolve: (message: DequeuedMessage) => void;
   reject: (reason: Error) => void;
   enqueuedAt: number;
-  req: IncomingMessage;
   /** Detach the socket close listener (set after enqueue) */
   detachCloseListener?: () => void;
 }
@@ -60,15 +63,7 @@ export class ContainerPool {
     return count;
   }
 
-  enqueue(container: {
-    deploymentId: string;
-    deploymentVersion: string;
-    machineCpu: string;
-    machineMemory: string;
-    controllerId: string;
-    workerInstanceName: string;
-    req: IncomingMessage;
-  }): Promise<DequeuedMessage> {
+  enqueue(container: EnqueueParams): Promise<DequeuedMessage> {
     if (this.totalWaiting >= this.maxPoolSize) {
       return Promise.reject(new Error("Pool is at max capacity"));
     }
