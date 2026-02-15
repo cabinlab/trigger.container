@@ -31,7 +31,7 @@ jobs:
     # needs: check-branch
     strategy:
       matrix:
-        package: [supervisor, checkpoint-service]
+        package: [supervisor, checkpoint-service, warm-start-service]
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: "1"

@@ -45,6 +45,7 @@ services:
       DOCKER_REGISTRY_PASSWORD: ${DOCKER_REGISTRY_PASSWORD:-}
       DOCKER_AUTOREMOVE_EXITED_CONTAINERS: 0
       TRIGGER_CHECKPOINT_URL: http://checkpoint-service:9020
+      TRIGGER_WARM_START_URL: http://warm-start-service:9021
     healthcheck:
       test: ["CMD", "node", "-e", "http.get('http://localhost:8020/health', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 30s
@@ -77,6 +78,26 @@ services:
       DEBUG: ${DEBUG:-0}
     volumes:
       - shared:/home/node/shared:ro
+
+  # Warm start service (optional — keeps idle containers alive for faster cold starts)
+  warm-start-service:
+    image: ghcr.io/triggerdotdev/warm-start-service:${TRIGGER_IMAGE_TAG:-v4-beta}
+    restart: ${RESTART_POLICY:-unless-stopped}
+    logging: *logging-config
+    networks:
+      - supervisor
+    environment:
+      WARM_START_SERVICE_PORT: 9021
+      CONNECTION_TIMEOUT_MS: 30000
+      KEEPALIVE_MS: 300000
+      MAX_POOL_SIZE: 1000
+      DEBUG: ${DEBUG:-0}
+    healthcheck:
+      test: ["CMD", "node", "-e", "http.get('http://localhost:9021/health', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
 
   docker-proxy:
     image: tecnativa/docker-socket-proxy:${DOCKER_PROXY_IMAGE_TAG:-latest}
