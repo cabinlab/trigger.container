@@ -1,130 +1,169 @@
-<div align="center">
+# trigger.container
 
-![Trigger.dev logo](https://content.trigger.dev/github-header-banner.jpg)
+Containerized [Trigger.dev](https://trigger.dev) self-hosting. Fork of [triggerdotdev/trigger.dev](https://github.com/triggerdotdev/trigger.dev) for fully containerized deployments with cloud-parity features.
 
-### Build and deploy fully‑managed AI agents and workflows
+> **v4 only.** This fork targets the v4 supervisor/checkpoint/warm-start architecture exclusively. There is no v3 compatibility and no migration path from v3 Docker setups (coordinator/docker-provider). If you're running v3, start fresh.
 
-[Website](https://trigger.dev) | [Docs](https://trigger.dev/docs) | [Issues](https://github.com/triggerdotdev/trigger.dev/issues) | [Example projects](https://github.com/triggerdotdev/examples) | [Feature requests](https://triggerdev.featurebase.app/) | [Public roadmap](https://triggerdev.featurebase.app/roadmap) | [Self-hosting](https://trigger.dev/docs/self-hosting/overview) 
+## Quick Start
 
-[![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red.svg)](https://github.com/triggerdotdev/trigger.dev)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/triggerdotdev/trigger.dev/blob/main/LICENSE)
-[![npm](https://img.shields.io/npm/v/@trigger.dev/sdk.svg?label=npm)](https://www.npmjs.com/package/@trigger.dev/sdk)
-[![SDK downloads](https://img.shields.io/npm/dm/@trigger.dev/sdk.svg?label=SDK%20downloads)](https://www.npmjs.com/package/@trigger.dev/sdk)
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/triggerdotdev?style=social)](https://twitter.com/triggerdotdev)
-[![Discord](https://img.shields.io/discord/1066956501299777596?logo=discord&logoColor=white&color=7289da)](https://discord.gg/nkqV9xBYWy)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/triggerdotdev/trigger.dev)
-[![GitHub stars](https://img.shields.io/github/stars/triggerdotdev/trigger.dev?style=social)](https://github.com/triggerdotdev/trigger.dev)
-
-</div>
-
-## About Trigger.dev
-
-Trigger.dev is the open-source platform for building AI workflows in TypeScript. Long-running tasks with retries, queues, observability, and elastic scaling.
-
-## The platform designed for building AI agents
-
-Build [AI agents](https://trigger.dev/product/ai-agents) using all the frameworks, services and LLMs you're used to, deploy them to Trigger.dev and get durable, long-running tasks with retries, queues, observability, and elastic scaling out of the box.
-
-- **Long-running without timeouts**: Execute your tasks with absolutely no timeouts, unlike AWS Lambda, Vercel, and other serverless platforms.
-
-- **Durability, retries & queues**: Build rock solid agents and AI applications using our durable tasks, retries, queues and idempotency.
-
-- **True runtime freedom**: Customize your deployed tasks with system packages – run browsers, Python scripts, FFmpeg and more.
-
-- **Human-in-the-loop**: Programmatically pause your tasks until a human can approve, reject or give feedback.
-
-- **Realtime apps & streaming**: Move your background jobs to the foreground by subscribing to runs or streaming AI responses to your app.
-
-- **Observability & monitoring**: Each run has full tracing and logs. Configure error alerts to catch bugs fast.
-
-## Key features:
-
-- **[JavaScript and TypeScript SDK](https://trigger.dev/docs/tasks/overview)** - Build background tasks using familiar programming models
-- **[Long-running tasks](https://trigger.dev/docs/runs/max-duration)** - Handle resource-heavy tasks without timeouts
-- **[Durable cron schedules](https://trigger.dev/docs/tasks/scheduled#scheduled-tasks-cron)** - Create and attach recurring schedules of up to a year
-- **[Trigger.dev Realtime](https://trigger.dev/docs/realtime/overview)** - Trigger, subscribe to, and get real-time updates for runs, with LLM streaming support
-- **[Build extensions](https://trigger.dev/docs/config/extensions/overview#build-extensions)** - Hook directly into the build system and customize the build process. Run Python scripts, FFmpeg, browsers, and more.
-- **[React hooks](https://trigger.dev/docs/frontend/react-hooks#react-hooks)** - Interact with the Trigger.dev API on your frontend using our React hooks package
-- **[Batch triggering](https://trigger.dev/docs/triggering#tasks-batchtrigger)** - Use batchTrigger() to initiate multiple runs of a task with custom payloads and options
-- **[Structured inputs / outputs](https://trigger.dev/docs/tasks/schemaTask#schematask)** - Define precise data schemas for your tasks with runtime payload validation
-- **[Waits](https://trigger.dev/docs/wait)** - Add waits to your tasks to pause execution for a specified duration
-- **[Preview branches](https://trigger.dev/docs/deployment/preview-branches)** - Create isolated environments for testing and development. Integrates with Vercel and git workflows
-- **[Waitpoints](https://trigger.dev/docs/wait-for-token#wait-for-token)** - Add human-in-the-loop judgment at critical decision points without disrupting workflow
-- **[Concurrency & queues](https://trigger.dev/docs/queue-concurrency#concurrency-and-queues)** - Set concurrency rules to manage how multiple tasks execute
-- **[Multiple environments](https://trigger.dev/docs/how-it-works#dev-mode)** - Support for DEV, PREVIEW, STAGING, and PROD environments
-- **[No infrastructure to manage](https://trigger.dev/docs/how-it-works#trigger-dev-architecture)** - Auto-scaling infrastructure that eliminates timeouts and server management
-- **[Automatic retries](https://trigger.dev/docs/errors-retrying)** - If your task encounters an uncaught error, we automatically attempt to run it again
-- **[Checkpointing](https://trigger.dev/docs/how-it-works#the-checkpoint-resume-system)** - Tasks are inherently durable, thanks to our checkpointing feature
-- **[Versioning](https://trigger.dev/docs/versioning)** - Atomic versioning allows you to deploy new versions without affecting running tasks
-- **[Machines](https://trigger.dev/docs/machines)** - Configure the number of vCPUs and GBs of RAM you want the task to use
-- **[Observability & monitoring](https://trigger.dev/product/observability-and-monitoring)** - Monitor every aspect of your tasks' performance with comprehensive logging and visualization tools
-- **[Logging & tracing](https://trigger.dev/docs/logging)** - Comprehensive logging and tracing for all your tasks
-- **[Tags](https://trigger.dev/docs/tags#tags)** - Attach up to ten tags to each run, allowing you to filter via the dashboard, realtime, and the SDK
-- **[Run metadata](https://trigger.dev/docs/runs/metadata#run-metadata)** - Attach metadata to runs which updates as the run progresses and is available to use in your frontend for live updates
-- **[Bulk actions](https://trigger.dev/docs/bulk-actions)** - Perform actions on multiple runs simultaneously, including replaying and cancelling
-- **[Real-time alerts](https://trigger.dev/docs/troubleshooting-alerts#alerts)** - Choose your preferred notification method for run failures and deployments
-
-## Write tasks in your codebase
-
-Create tasks where they belong: in your codebase. Version control, localhost, test and review like you're already used to.
-
-```ts
-import { task } from "@trigger.dev/sdk";
-
-//1. You need to export each task
-export const helloWorld = task({
-  //2. Use a unique id for each task
-  id: "hello-world",
-  //3. The run function is the main function of the task
-  run: async (payload: { message: string }) => {
-    //4. You can write code that runs for a long time here, there are no timeouts
-    console.log(payload.message);
-  },
-});
+```bash
+cd hosting/docker
+./start.sh
 ```
 
-## Deployment
+This creates `.env` from `.env.example` (with optional secret generation), then brings up the full stack. Webapp is available at **http://localhost:8030** once healthy.
 
-Use our SDK to write tasks in your codebase. There's no infrastructure to manage, your tasks automatically scale and connect to our cloud. Or you can always self-host.
+## What This Fork Adds
 
-## Environments
+Trigger.dev's cloud platform includes features not yet available in the open-source self-hosted deployment. This fork carries patches that close that gap:
 
-We support `Development`, `Staging`, `Preview`, and `Production` environments, allowing you to test your tasks before deploying them to production.
+### Feature Branches
 
-## Full visibility of every job run
+| Branch | Description |
+|--------|-------------|
+| `feat/self-hosted-checkpoint-service` | Enables container checkpointing for self-hosted deployments (requires CRIU on host). Allows long-running tasks to checkpoint/resume, matching cloud behavior. |
+| `feat/warm-start-service` | Adds warm container reuse for self-hosted deployments. Reduces cold start latency by keeping recently-used task containers alive. Builds on checkpoint branch. |
 
-View every task in every run so you can tell exactly what happened. We provide a full trace view of every task run so you can see what happened at every step.
+These branches are maintained separately for upstream PR submission. They rebase on `main` as needed.
 
-![Trace view image](https://content.trigger.dev/trace-view.png)
+### Hosting Enhancements (on `main`)
 
-# Getting started
+The `hosting/docker/` directory includes deployment tooling beyond what upstream provides:
 
-The quickest way to get started is to create an account and project in our [web app](https://cloud.trigger.dev), and follow the instructions in the onboarding. Build and deploy your first task in minutes.
+- **Combined compose file** — `docker-compose.yml` uses the `include` directive to run webapp + worker stacks together
+- **Helper scripts** — `start.sh`, `stop.sh`, `update.sh` for full or split deployments
+- **Explicit network naming** — predictable `trigger` network name for external service integration
+- **Override-friendly** — drop a `docker-compose.override.yml` to customize (swap Postgres for external DB, add reverse proxy networks, etc.)
 
-### Useful links:
+## Architecture
 
-- [Quick start](https://trigger.dev/docs/quick-start) - get up and running in minutes
-- [How it works](https://trigger.dev/docs/how-it-works) - understand how Trigger.dev works under the hood
-- [Guides and examples](https://trigger.dev/docs/guides/introduction) - walk-through guides and code examples for popular frameworks and use cases
+```mermaid
+graph TB
+    subgraph compose["hosting/docker/docker-compose.yml"]
+        subgraph webapp_stack["webapp stack"]
+            webapp["webapp<br/>(trigger.dev :8030)"]
+            postgres["postgres"]
+            redis["redis"]
+            electric["electric"]
+            clickhouse["clickhouse"]
+            registry["registry"]
+            minio["minio"]
+        end
+        subgraph worker_stack["worker stack"]
+            supervisor["supervisor<br/>(task execution)"]
+            checkpoint["checkpoint-service<br/>(optional, CRIU)"]
+            proxy["docker-proxy<br/>(socket proxy)"]
+        end
+    end
 
-## Self-hosting
+    supervisor -->|API + OTEL| webapp
+    checkpoint -->|API| webapp
+    webapp --> postgres
+    webapp --> redis
+    webapp --> clickhouse
+    electric --> postgres
+    supervisor --> proxy
+    checkpoint --> proxy
 
-If you prefer to self-host Trigger.dev, you can follow our [self-hosting guides](https://trigger.dev/docs/self-hosting/overview):
+    trigger_net["network: trigger"]
+    style trigger_net fill:none,stroke:#666,stroke-dasharray:5 5
+```
 
-- [Docker self-hosting guide](https://trigger.dev/docs/self-hosting/docker) - use Docker Compose to spin up a Trigger.dev instance
-- [Kubernetes self-hosting guide](https://trigger.dev/docs/self-hosting/kubernetes) - use our official Helm chart to deploy Trigger.dev to your Kubernetes cluster
+**10 services total:**
+- **webapp** — Trigger.dev application server (port 8030)
+- **postgres** — PostgreSQL database (WAL logical replication)
+- **redis** — Session store and caching
+- **electric** — Real-time sync (ElectricSQL)
+- **clickhouse** — Run analytics and observability
+- **registry** — Docker image registry for deployed tasks
+- **minio** — S3-compatible object storage
+- **supervisor** — Manages task runner containers
+- **checkpoint-service** — Container checkpointing (requires CRIU)
+- **docker-proxy** — Secure Docker socket proxy
 
-## Support and community
+## Deployment Modes
 
-We have a large active community in our official [Discord server](https://trigger.dev/discord) for support, including a dedicated channel for self-hosting.
+### Full Stack (default)
 
-## Development
+Runs everything on a single machine:
 
-To setup and develop locally or contribute to the open source project, follow our [development guide](./CONTRIBUTING.md).
+```bash
+./start.sh          # or: ./start.sh full
+./stop.sh
+./update.sh
+```
 
-## Meet the Amazing People Behind This Project:
+### Split Deployment
 
-<a href="https://github.com/triggerdotdev/trigger.dev/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=triggerdotdev/trigger.dev" />
-</a>
+Run webapp and worker on separate machines:
+
+```bash
+# Machine A (webapp)
+./start.sh webapp
+
+# Machine B (worker)
+# Set TRIGGER_API_URL and OTEL_EXPORTER_OTLP_ENDPOINT in .env first
+./start.sh worker
+```
+
+### Customization via Override
+
+Create `hosting/docker/docker-compose.override.yml` to customize without modifying tracked files:
+
+```yaml
+services:
+  postgres:
+    profiles: ["disabled"]    # Use external database
+  webapp:
+    environment:
+      DATABASE_URL: postgresql://user:pass@external-db:5432/trigger
+```
+
+## Configuration
+
+All configuration is in `hosting/docker/.env`. Copy from `.env.example` (or let `start.sh` do it) and update:
+
+- **Secrets** — `SESSION_SECRET`, `MAGIC_LINK_SECRET`, `ENCRYPTION_KEY`, `MANAGED_WORKER_SECRET` (generate with `openssl rand -hex 16`)
+- **Origins** — `APP_ORIGIN`, `LOGIN_ORIGIN`, `API_ORIGIN` (set to your public URL in production)
+- **Postgres** — `DATABASE_URL`, `DIRECT_URL`, `POSTGRES_PASSWORD`
+- **Registry** — `DOCKER_REGISTRY_URL`, `DOCKER_REGISTRY_PASSWORD`
+- **Object Store** — `OBJECT_STORE_ACCESS_KEY_ID`, `OBJECT_STORE_SECRET_ACCESS_KEY`
+
+See `.env.example` for the full list with documentation.
+
+## Updating from Upstream
+
+This fork tracks `triggerdotdev/trigger.dev`. To pull upstream changes:
+
+```bash
+# Add upstream remote (once)
+git remote add upstream https://github.com/triggerdotdev/trigger.dev.git
+
+# Fetch and merge
+git fetch upstream
+git merge upstream/main
+
+# Rebase feature branches
+git checkout feat/self-hosted-checkpoint-service
+git rebase main
+git checkout feat/warm-start-service
+git rebase feat/self-hosted-checkpoint-service
+```
+
+### What We Diverge On
+
+- `hosting/docker/` — enhanced deployment tooling (scripts, combined compose, network naming)
+- `README.md` — this file (self-hosting focused vs. cloud-first)
+- Feature branches — checkpoint and warm-start patches (pending upstream merge)
+
+Source code on `main` is identical to upstream. Conflicts are limited to `README.md` and `hosting/docker/` files.
+
+## Requirements
+
+- Docker Engine 24+ with Compose v2.24+ (for `include` directive)
+- 4GB+ RAM recommended (8GB+ for production)
+- CRIU on host (only if using checkpoint-service)
+
+## License
+
+[Apache 2.0](LICENSE) — same as upstream Trigger.dev.

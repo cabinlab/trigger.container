@@ -238,4 +238,4 @@ networks:
   supervisor:
     name: supervisor
   webapp:
-    name: webapp
+    name: trigger

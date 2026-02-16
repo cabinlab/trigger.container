@@ -39,7 +39,7 @@ services:
       ENFORCE_MACHINE_PRESETS: 1
       TRIGGER_DEQUEUE_INTERVAL_MS: 1000
       DOCKER_HOST: tcp://docker-proxy:2375
-      DOCKER_RUNNER_NETWORKS: webapp,supervisor
+      DOCKER_RUNNER_NETWORKS: trigger,supervisor
       DOCKER_REGISTRY_URL: ${DOCKER_REGISTRY_URL:-localhost:5000}
       DOCKER_REGISTRY_USERNAME: ${DOCKER_REGISTRY_USERNAME:-}
       DOCKER_REGISTRY_PASSWORD: ${DOCKER_REGISTRY_PASSWORD:-}
@@ -82,4 +82,4 @@ networks:
   supervisor:
     name: supervisor
   webapp:
-    name: webapp
+    name: trigger

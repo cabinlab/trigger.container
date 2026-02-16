@@ -1,0 +1,5 @@
+name: trigger
+
+include:
+  - path: webapp/docker-compose.yml
+  - path: worker/docker-compose.yml
