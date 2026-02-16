@@ -81,7 +81,7 @@ services:
 
   # Warm start service (optional — keeps idle containers alive for faster cold starts)
   warm-start-service:
-    image: ghcr.io/triggerdotdev/warm-start-service:${TRIGGER_IMAGE_TAG:-v4-beta}
+    image: ghcr.io/cabinlab/warm-start-service:${TRIGGER_IMAGE_TAG:-v4-beta}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
     networks:
