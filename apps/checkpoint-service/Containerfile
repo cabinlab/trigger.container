@@ -34,7 +34,8 @@ COPY --from=dev-deps --chown=node:node /app/ .
 COPY --chown=node:node turbo.json turbo.json
 COPY --chown=node:node .configs/tsconfig.base.json .configs/tsconfig.base.json
 
-RUN pnpm run --filter @trigger.dev/checkpoint-service... build && \
+RUN pnpm run --filter @trigger.dev/database generate && \
+  pnpm run --filter @trigger.dev/checkpoint-service... build && \
   pnpm deploy --legacy --filter=@trigger.dev/checkpoint-service --prod /prod/checkpoint-service
 
 FROM base AS runner
