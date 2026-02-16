@@ -54,7 +54,7 @@ services:
 
   # Checkpoint service (optional — requires CRIU on the host for container checkpointing)
   checkpoint-service:
-    image: ghcr.io/triggerdotdev/checkpoint-service:${TRIGGER_IMAGE_TAG:-v4-beta}
+    image: ghcr.io/cabinlab/checkpoint-service:${TRIGGER_IMAGE_TAG:-v4-beta}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
     ports:
