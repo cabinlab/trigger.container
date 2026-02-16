@@ -15,9 +15,14 @@ services:
     ports:
       - ${WEBAPP_PUBLISH_IP:-0.0.0.0}:8030:3000
     depends_on:
-      - postgres
-      - redis
-      - clickhouse
+      postgres:
+        condition: service_started
+        required: false
+      redis:
+        condition: service_started
+      clickhouse:
+        condition: service_started
+        required: false
     networks:
       - webapp
       - supervisor
@@ -85,6 +90,7 @@ services:
       INTERNAL_OTEL_TRACE_LOGGING_ENABLED: ${INTERNAL_OTEL_TRACE_LOGGING_ENABLED:-0}
 
   postgres:
+    profiles: [database]
     image: postgres:${POSTGRES_IMAGE_TAG:-14}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
@@ -130,7 +136,9 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
+        required: false
     networks:
       - webapp
     environment:
@@ -145,6 +153,7 @@ services:
       start_period: 10s
 
   clickhouse:
+    profiles: [analytics]
     image: bitnamilegacy/clickhouse:${CLICKHOUSE_IMAGE_TAG:-latest}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
@@ -181,6 +190,7 @@ services:
       start_period: 10s
 
   registry:
+    profiles: [registry]
     image: registry:${REGISTRY_IMAGE_TAG:-2}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
@@ -203,6 +213,7 @@ services:
       start_period: 10s
 
   minio:
+    profiles: [storage]
     image: bitnamilegacy/minio:${MINIO_IMAGE_TAG:-latest}
     restart: ${RESTART_POLICY:-unless-stopped}
     logging: *logging-config
